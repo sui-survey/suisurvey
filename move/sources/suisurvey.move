@@ -180,7 +180,7 @@ module admin::suisurvey{
         assert!(table::contains(&state.creators, creator), ESurveyNotFound);
         let surveys = table::borrow_mut(&mut state.creators, creator);
         assert!(form.expiration > clock::timestamp_ms(clock), ESurveyExpired);
-        assert!(form.max_participants < vector::length(&form.participants), ESurveyMaxParticipantsExceeded);
+        assert!(form.max_participants > vector::length(&form.participants), ESurveyMaxParticipantsExceeded);
         assert!(!vector::contains(&form.participants, &participant), EParticipantAlreadyParticipated);
         let participant_id = vector::length(&form.participants);
         vector::push_back(&mut form.participants, participant);
