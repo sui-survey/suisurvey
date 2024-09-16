@@ -1,0 +1,93 @@
+definitions:
+  enums.ItermType:
+    enum:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    type: integer
+    x-enum-varnames:
+    - TEXT
+    - TEXTAREA
+    - CHECKBOX
+    - RADIO
+    - SELECT
+  model.CreateFormDto:
+    properties:
+      id:
+        type: string
+      itemList:
+        items:
+          $ref: '#/definitions/model.Item'
+        type: array
+      title:
+        type: string
+    type: object
+  model.Item:
+    properties:
+      name:
+        type: string
+      title:
+        type: string
+      type:
+        $ref: '#/definitions/enums.ItermType'
+      value:
+        type: string
+    type: object
+  result.Result:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: backend survey for walrus
+  title: Survey
+  version: "1.0"
+paths:
+  /api/v1/create-form:
+    post:
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.CreateFormDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      summary: CreateForm API
+      tags:
+      - CreateForm
+  /api/v1/form/{blobId}:
+    get:
+      parameters:
+      - description: Blob ID
+        in: path
+        name: blobId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+        "400":
+          description: Invalid blob ID
+          schema:
+            type: string
+      summary: GetForm API
+      tags:
+      - GetForm
+swagger: "2.0"
